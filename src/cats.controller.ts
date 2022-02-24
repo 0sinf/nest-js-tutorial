@@ -1,14 +1,22 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
 
 @Controller('cats')
 export class CatsController {
   @Get()
-  findAll(): string {
+  findAll(@Req() req: Request, @Res() res: Response): string {
+    console.log(req.body);
+    res.json({ cats: [] });
     return 'This action returns all cats';
   }
 
-  @Get('one')
-  findOne(): string {
-    return 'This action returns one cat';
+  @Get(':id')
+  findOne(@Param('id') id: string): string {
+    return `This action returns #${id} cat`;
+  }
+
+  @Post()
+  create(@Body() createDto: CreateDto): string {
+    return 'This action add a new cat';
   }
 }
