@@ -1,13 +1,26 @@
-import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import { CreateCatDto, UpdateCatDto, ListAllEntities } from './dto';
 
 @Controller('cats')
 export class CatsController {
+  @Post()
+  create(@Body() createCatDto: CreateCatDto): string {
+    console.log(createCatDto);
+    return 'This action add a new cat';
+  }
+
   @Get()
-  findAll(@Req() req: Request, @Res() res: Response): string {
-    console.log(req.body);
-    res.json({ cats: [] });
-    return 'This action returns all cats';
+  findAll(@Query() query: ListAllEntities) {
+    return `This action returns all cats(limit: ${query.limit} items)`;
   }
 
   @Get(':id')
@@ -15,8 +28,14 @@ export class CatsController {
     return `This action returns #${id} cat`;
   }
 
-  @Post()
-  create(@Body() createDto: CreateDto): string {
-    return 'This action add a new cat';
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
+    console.log(updateCatDto);
+    return `This action updates a #${id} cat`;
+  }
+
+  @Delete(':id')
+  remove(@Param(':id') id: string) {
+    return `This action removes a #${id} cat`;
   }
 }
