@@ -17,8 +17,8 @@ export class UsersController {
 
   @Post('/email-verify')
   async verfiyEmail(@Query() dto: VerifyEmailDto): Promise<string> {
-    console.log(dto);
-    return;
+    const { signupVerifyToken } = dto;
+    return await this.usersService.verifyEmail(signupVerifyToken);
   }
 
   @Post('/login')
