@@ -6,7 +6,7 @@ module.exports = {
   password: process.env.DATABASE_PASSWORD,
   database: 'nest',
   entities: ['dist/**/*.entity{.ts,.js}'],
-  synchronize: false,
+  synchronize: true,
   migrations: ['dist/migrations/*{.ts,.js}'],
   cli: {
     migrationsDir: 'src/migrations',
