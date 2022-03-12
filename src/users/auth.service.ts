@@ -31,8 +31,9 @@ export class AuthService {
         | string
       ) &
         User;
+
       const { id, email } = payload;
-      console.log(payload);
+
       return {
         userId: id,
         email,
