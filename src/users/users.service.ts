@@ -41,6 +41,7 @@ export class UsersService {
 
   async verifyEmail(signupVerifyToken: string): Promise<string> {
     const user = await this.usersRepository.findOne({ signupVerifyToken });
+
     if (!user) {
       throw new Error('유저가 존재하지 않습니다.');
     }
@@ -52,10 +53,17 @@ export class UsersService {
   }
 
   async login(email: string, password: string): Promise<string> {
-    // TODO:
-    // 1. email, password 가진 유저 존재하는지 DB 확인
-    // 2. JWT 발급
-    throw new Error('Method not implemented');
+    const user = await this.usersRepository.findOne({ email, password });
+
+    if (!user) {
+      throw new Error('유저가 존재하지 않습니다.');
+    }
+
+    return this.authService.login({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    });
   }
 
   async getUserInfo(userId: string): Promise<UserInfo> {
